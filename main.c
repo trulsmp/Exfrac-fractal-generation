@@ -19,27 +19,27 @@ int main(int argc, char *argv[])
         resX = 800;
         resY = 800;
         max_iteration = 1000;
-        double xLow = -2;
-        double yLow = -2;
+        xLow = -2;
+        yLow = -2;
     }
     else {
         resX = atoi(argv[1]);
         resY = atoi(argv[2]);
         max_iteration = atoi(argv[3]);
-        if {argc > 5;
-        double xLow = arg[4];
-        double yLow = arg[5];
+        if (argc > 5) {
+            xLow = atof(argv[4]);
+            yLow = atof(argv[5]);
+        }
+        else {
+            xLow = -2;
+            yLow = -2;
+        }
         
     }
     
     FILE *fp = fopen("first.ppm", "wb"); /* b - binary mode */
     (void) fprintf(fp, "P6\n%d %d\n255\n", resX, resY);
-    
-    double xLow = -2;
-    double yLow = -2;
-    double xHigh = 2;
-    double yHigh = 2;
-    
+
     static unsigned char blackColor[3] = {0,0,0};
     
     int iteration;
