@@ -11,15 +11,17 @@
 #include "mandelbrot.h"
 
 char colors[40][3];
-static unsigned char blackColor[3] = {0,0,0};
+static unsigned char blackColor[3] = {20,20,20};
 
 void mandelbrot(int resolution, int maxIterations, double xRange, double yRange, double yLow, double xLow) {
 
-    // Generate the color map the draw the different colors
+    // Generate the color map to draw the different colors
     createColorMap();
     
-    // Opens a new ppm file to allow for colouring
-    FILE *fp = fopen("first.ppm", "wb"); /* b - binary mode */
+    // Opens a new ppm file to allow for colouring.
+    // Used http://rosettacode.org/wiki/Bitmap/Write_a_PPM_file#C for documentation on how to open, write and close a ppm file.
+    
+    FILE *fp = fopen("first.ppm", "wb");
     (void) fprintf(fp, "P6\n%d %d\n255\n", resolution, resolution);
     
     int iteration;
@@ -35,6 +37,7 @@ void mandelbrot(int resolution, int maxIterations, double xRange, double yRange,
             zIm = 0;
             zRe = 0;
             iteration = 0;
+            
             
             // Iterate as long as the length of Z does not go out of the range bound.
             while ( zRe*zRe + zIm*zIm < 4  &&  iteration < maxIterations ) {
@@ -52,14 +55,19 @@ void mandelbrot(int resolution, int maxIterations, double xRange, double yRange,
 }
 
 void writeColor(int iteration, int maxIterations,FILE *fp, double zIm, double zRe){
+    
+    //The point is a part of the mandelbrot set, paint it black
     if(iteration == maxIterations) {
         (void) fwrite(blackColor, 1, 3, fp);
     }
+    
+    // The point has escaped the bound set and is colored based on how close it is to the mandelbrot set.
     else {
+        iteration+=2;
+        // Normalized iteration count algorithm, detailed http://math.unipa.it/~grim/Jbarrallo.PDF to smooth the coloring
         double conColor = iteration + 1 - log(log(zIm*zIm + zRe*zRe))/log(2);
-        conColor = conColor /maxIterations * 20;
+        conColor = conColor /maxIterations * 40;
         int c = (int) conColor;
-        //printf("%i \n", c);
         char Color[3] = {colors[c][0],colors[c][1],colors[c][2]};
         (void) fwrite(Color, 1, 3, fp);
     }
@@ -67,14 +75,24 @@ void writeColor(int iteration, int maxIterations,FILE *fp, double zIm, double zR
 }
 
 void createColorMap(){
-    for (int i=0;i <20; i++) {
-        colors[i][0] = i*11 + 25;
-        colors[i][1] = i*5 + 6;
+    for (int i=0;i <10; i++) {
+        colors[i][0] = i*23 + 25;
+        colors[i][1] = i*14 + 6;
         colors[i][2] = 0;
     }
-    for (int j = 20; j < 40; j++) {
-        colors[j][0] = 255;
-        colors[j][1] = j*5 +154;
-        colors[j][2] = j*12 + 13;
+    for (int j = 0; j < 10; j++) {
+        colors[j+10][0] = 255;
+        colors[j+10][1] = j*5 +154;
+        colors[j+10][2] = j*12 + 13;
+    }
+    for (int i = 0; i < 10; i++) {
+        colors[i+30][0] = 255;
+        colors[i+30][1] = 255;
+        colors[i+30][2] = 235+2*i;
+    }
+    for (int i = 0; i < 10; i++) {
+        colors[i+20][0] = i + 245;
+        colors[i+20][1] = 255;
+        colors[i+20][2] = i*24;
     }
 }
