@@ -10,5 +10,6 @@
 
 echo "This is job ’$SLURM_JOB_NAME’ (id: $SLURM_JOB_ID) running on the following nodes:"
 uniq $SLURM_NODELIST
+make
 srun time exfrac
 echo "Have a nice day."
