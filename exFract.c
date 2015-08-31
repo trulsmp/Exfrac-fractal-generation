@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include "exFract.h"
 #include <unistd.h>
+#include <getopt.h>
 #include "mandelbrot.h"
-#include "png.h"
 
 int main(int argc, char *argv[])
 {
