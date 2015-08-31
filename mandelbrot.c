@@ -2,9 +2,7 @@
 //  mandelbrot.c
 //  HPC
 //
-//  Created by Truls Mørk Pettersen on 30/08/2015.
-//  Copyright (c) 2015 Truls Mørk Pettersen. All rights reserved.
-//
+
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -18,13 +16,13 @@ void mandelbrot(int resolution, int maxIterations, double xRange, double yRange,
     // Generate the color map to draw the different colors
     createColorMap();
     
+    char filename[32];
+    
+    //Changing filename based on the resolution set
+    snprintf(filename, sizeof(char) * 32, "./img/fractal%i.ppm", resolution);
+    
     // Opens a new ppm file to allow for colouring.
     // Used http://rosettacode.org/wiki/Bitmap/Write_a_PPM_file#C for documentation on how to open, write and close a ppm file.
-    
-    char filename[32]; // The filename buffer.
-    // Put "file" then k then ".txt" in to filename.
-    snprintf(filename, sizeof(char) * 32, "./img/fractal%i.ppm", resolution);
-
     FILE *fp = fopen(filename, "wb");
     (void) fprintf(fp, "P6\n%d %d\n255\n", resolution, resolution);
     
@@ -32,18 +30,20 @@ void mandelbrot(int resolution, int maxIterations, double xRange, double yRange,
     double zRe, zIm, nextZRe, yIm, xReal;
     
     //Iterates over x and y number of pixels defined
-    for (double i = 0; i < resolution; i+=1) {
-        for (double j = 0; j < resolution; j+=1) {
+    for (double i = 0; i < resolution; i++) {
+        for (double j = 0; j < resolution; j++) {
             
             // Finds the imaginary point y and real point x depending on what the parameters has been set to
             yIm = ((i/resolution)*yRange)+yLow;
             xReal = ((j/resolution)*xRange)+xLow;
-            zIm = 0;
-            zRe = 0;
+            
+            zIm = 0.0;
+            zRe = 0.0;
             iteration = 0;
             
             
             // Iterate as long as the length of Z does not go out of the range bound.
+            // Algorithm is further detailed in the report.
             while ( zRe*zRe + zIm*zIm < 4  &&  iteration < maxIterations ) {
                 nextZRe = zRe*zRe - zIm*zIm + xReal;
                 zIm = 2*zRe*zIm + yIm;
@@ -69,10 +69,10 @@ void writeColor(int iteration, int maxIterations,FILE *fp, double zIm, double zR
     else {
         iteration+=2;
         // Normalized iteration count algorithm, detailed http://math.unipa.it/~grim/Jbarrallo.PDF to smooth the coloring
-        double conColor = iteration + 1 - log(log(zIm*zIm + zRe*zRe))/log(2);
-        conColor = conColor /maxIterations * 40;
-        int c = (int) conColor;
-        char Color[3] = {colors[c][0],colors[c][1],colors[c][2]};
+        double NormalizedValue = iteration + 1 - log(log(zIm*zIm + zRe*zRe))/log(2);
+        NormalizedValue = NormalizedValue /maxIterations * 40;
+        int colorIndex = (int) NormalizedValue;
+        char Color[3] = {colors[colorIndex][0],colors[colorIndex][1],colors[colorIndex][2]};
         (void) fwrite(Color, 1, 3, fp);
     }
     

@@ -2,10 +2,12 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-#include "exFract.h"
 #include <unistd.h>
 #include <getopt.h>
+#include "exFrac.h"
 #include "mandelbrot.h"
+
+void parseInputs(int argc, char* argv[], int *resolution, int *maxIterations, double *xLow, double *xHigh, double *yLow, double *yHigh);
 
 int main(int argc, char *argv[])
 {
@@ -19,7 +21,7 @@ int main(int argc, char *argv[])
     double xRange, yRange;
     
     if (argc > 2) {
-        parseInputs(argc, argv, &resolution, &maxIterations);
+        parseInputs(argc, argv, &resolution, &maxIterations,&xLow,&xHigh,&yLow,&yHigh);
     }
     
     //Checks the distance of the calculation to enable zooming
@@ -33,7 +35,7 @@ int main(int argc, char *argv[])
 }
 
 // Parsing the command line arguments using getopt: http://www.gnu.org/software/libc/manual/html_node/Getopt.html
-void parseInputs(int argc, char* argv[], int *resolution, int *maxIterations){
+void parseInputs(int argc, char* argv[], int *resolution, int *maxIterations, double *xLow, double *xHigh, double *yLow, double *yHigh){
     int opt;
     while ((opt = getopt(argc, argv, "r:i:")) != -1)
         switch (opt) {
