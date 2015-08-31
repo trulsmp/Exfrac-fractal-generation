@@ -5,9 +5,11 @@
 #include "exFract.h"
 #include <unistd.h>
 #include "mandelbrot.h"
+#include "png.h"
 
 int main(int argc, char *argv[])
 {
+    //Initalizes default value of the resolution and parameters
     int resolution = 1000;
     int maxIterations = 80;
     double xLow = -2.0;
@@ -30,6 +32,7 @@ int main(int argc, char *argv[])
     
 }
 
+// Parsing the command line arguments using getopt: http://www.gnu.org/software/libc/manual/html_node/Getopt.html
 void parseInputs(int argc, char* argv[], int *resolution, int *maxIterations){
     int opt;
     while ((opt = getopt(argc, argv, "r:i:")) != -1)
