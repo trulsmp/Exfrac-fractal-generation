@@ -21,7 +21,11 @@ void mandelbrot(int resolution, int maxIterations, double xRange, double yRange,
     // Opens a new ppm file to allow for colouring.
     // Used http://rosettacode.org/wiki/Bitmap/Write_a_PPM_file#C for documentation on how to open, write and close a ppm file.
     
-    FILE *fp = fopen("first.ppm", "wb");
+    char filename[32]; // The filename buffer.
+    // Put "file" then k then ".txt" in to filename.
+    snprintf(filename, sizeof(char) * 32, "/img/fractal%i.txt", resolution);
+    
+    FILE *fp = fopen(filename, "wb");
     (void) fprintf(fp, "P6\n%d %d\n255\n", resolution, resolution);
     
     int iteration;
