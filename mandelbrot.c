@@ -23,8 +23,8 @@ void mandelbrot(int resolution, int maxIterations, double xRange, double yRange,
     
     char filename[32]; // The filename buffer.
     // Put "file" then k then ".txt" in to filename.
-    snprintf(filename, sizeof(char) * 32, "/img/fractal%i.txt", resolution);
-    
+    snprintf(filename, sizeof(char) * 32, "./img/fractal%i.ppm", resolution);
+
     FILE *fp = fopen(filename, "wb");
     (void) fprintf(fp, "P6\n%d %d\n255\n", resolution, resolution);
     
