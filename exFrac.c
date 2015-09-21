@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 // Parsing the command line arguments using getopt: http://www.gnu.org/software/libc/manual/html_node/Getopt.html
 void parseInputs(int argc, char* argv[], int *resolution, int *maxIterations, double *xLow, double *xHigh, double *yLow, double *yHigh){
     int opt;
-    while ((opt = getopt(argc, argv, "r:i:x:y:X:Y:")) != -1)
+    while ((opt = getopt(argc, argv, "r:i:x:y:X:Y:")) != -1) 
         switch (opt) {
             case 'r':
                 *resolution = atoi(optarg);

@@ -3,6 +3,7 @@ COSC3500 - High performance programming
 Exfrac, a program to generate large fractals using mandelbrot set method. 
 
 To compile program, execute make file by typing: make
+
 It will then be compiled and linked properly.
 
 Run command:
