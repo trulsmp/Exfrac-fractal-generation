@@ -32,3 +32,5 @@
 *.dSYM/
 .svn
 .svn/
+
+libraries/

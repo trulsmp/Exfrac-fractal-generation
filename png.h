@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <libraries/include/libpng16/png.h>
+#include <png.h>
 
 int save_png_to_file(bitmap_t *bitmap, const char *path, int resolution);
 
