@@ -6,6 +6,7 @@
 #include <math.h>
 #include "mandelbrot.h"
 #include "png.h"
+#include <stdint.h>
 #include <omp.h>
 
 char colors[40][3];
@@ -43,7 +44,7 @@ void mandelbrot(int resolution, int maxIterations, double xRange, double yRange,
     
     int i;
     int j;
-    #pragma omp parallel for private(i) shared(colors) schedule(dymamic)
+    #pragma omp parallel for private(i) shared(colors) schedule(dynamic)
     for (i = 0; i < resolution; i++) {
         for (j = 0; j < resolution; j++) {
             
@@ -74,7 +75,6 @@ void mandelbrot(int resolution, int maxIterations, double xRange, double yRange,
 
 void writeColor(int iteration, int maxIterations, double zIm, double zRe, int i, int j, bitmap_t *mandelset){
     
-    #pragma omp critical
     pixel_t * pixel = (*mandelset).pixels + (*mandelset).width*i+j;
     
     

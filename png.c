@@ -6,10 +6,6 @@
 //  Copyright (c) 2015 Truls Mørk Pettersen. All rights reserved.
 //
 
-#include <stdio.h>
-#include</Users/trulsmp/Documents/UQ/libpng-1.6.18/png.h>
-#include <math.h>
-#include <stdlib.h>
 #include "png.h"
 
 int save_png_to_file(bitmap_t *bitmap, const char *path, int resolution)
@@ -17,7 +13,7 @@ int save_png_to_file(bitmap_t *bitmap, const char *path, int resolution)
     FILE * fp;
     png_structp png_ptr = NULL;
     png_infop info_ptr = NULL;
-    size_t x, y;
+    int x, y;
     png_byte ** row_pointers = NULL;
     
     int pixel_size = 3;
@@ -41,9 +37,6 @@ int save_png_to_file(bitmap_t *bitmap, const char *path, int resolution)
         fclose (fp);
     }
     
-    if (setjmp (png_jmpbuf (png_ptr))) {
-        fclose (fp);
-    }
     
     // Set the config values, found from documentation
     
