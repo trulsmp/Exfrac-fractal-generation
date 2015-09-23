@@ -27,7 +27,7 @@ void mandelbrot(int resolution, int maxIterations, double xRange, double yRange,
     
     char filename[32];
     
-    Changing filename based on the resolution set
+    //Changing filename based on the resolution set
     snprintf(filename, sizeof(char) * 32, "./img/fractal%i.png", resolution);
     
     // Opens a new ppm file to allow for colouring.
@@ -38,17 +38,18 @@ void mandelbrot(int resolution, int maxIterations, double xRange, double yRange,
     int iteration;
     double zRe, zIm, nextZRe, yIm, xReal;
     
+    
     //Iterates over x and y number of pixels defined
     
-    double i;
-    double j;
-#pragma omp parallel for private(i) schedule(dynamic,10)
+    int i;
+    int j;
+    #pragma omp parallel for private(i) shared(colors) schedule(dymamic)
     for (i = 0; i < resolution; i++) {
         for (j = 0; j < resolution; j++) {
             
             // Finds the imaginary point y and real point x depending on what the parameters has been set to
-            yIm = ((i/resolution)*yRange)+yLow;
-            xReal = ((j/resolution)*xRange)+xLow;
+            yIm = (((double)i/resolution)*yRange)+yLow;
+            xReal = (((double)j/resolution)*xRange)+xLow;
             
             zIm = 0.0;
             zRe = 0.0;
@@ -63,16 +64,17 @@ void mandelbrot(int resolution, int maxIterations, double xRange, double yRange,
                 zRe = nextZRe;
                 iteration++;
             }
-            writeColor(iteration, maxIterations, zIm, zRe,i,j, &mandelset);
+            writeColor(iteration, maxIterations, zIm, zRe,(double)i,(double)j, &mandelset);
         }
     }
     
-    save_png_to_file(&mandelset, filename,resolution);
+    save_png_to_file(&mandelset, "mandelbrot.png",resolution);
     
 }
 
 void writeColor(int iteration, int maxIterations, double zIm, double zRe, int i, int j, bitmap_t *mandelset){
     
+    #pragma omp critical
     pixel_t * pixel = (*mandelset).pixels + (*mandelset).width*i+j;
     
     
