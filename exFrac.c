@@ -1,13 +1,13 @@
 
+
+#include "mandelbrot.h"
+#include "png.h"
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <getopt.h>
 #include "exFrac.h"
-#include "mandelbrot.h"
-
-void parseInputs(int argc, char* argv[], int *resolution, int *maxIterations, double *xLow, double *xHigh, double *yLow, double *yHigh);
 
 int main(int argc, char *argv[])
 {
