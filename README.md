@@ -1,5 +1,4 @@
-# 
-High performance computing
+# High performance computing
 Exfrac, a program to generate large fractals using mandelbrot set method. 
 
 To compile program, execute make file by typing: make
